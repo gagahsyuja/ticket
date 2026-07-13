@@ -3,17 +3,28 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])
     ->name('home');
 
+// Event
 Route::get('/events/{event}', [EventController::class, 'show'])
     ->name('events.show');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Admin
+Route::prefix('admin')->name('categories.')->middleware(['auth', 'verified'])->group(function () {
+    Route::get('/categories', [DashboardController::class, 'index'])->name('index');
+    Route::post('/categories', [CategoryController::class, 'store'])->name('store');
+    Route::put('/categories/{id}', [CategoryController::class, 'update'])->name('update');
+    Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('destroy');
+});
+
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
