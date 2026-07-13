@@ -1,0 +1,27 @@
+services:
+  laravel:
+    container_name: laravel
+    build:
+      context: .
+      dockerfile: Dockerfile
+    user: 1000:1000
+    volumes:
+      - .:/app
+    networks:
+      - laravel
+    ports:
+      - 8000:8000
+    command: ["php", "artisan", "serve", "--host", "0.0.0.0"]
+
+  database:
+    container_name: mariadb
+    image: mariadb:12.3.2-noble
+    environment:
+      MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: 1
+    volumes:
+        - /var/lib/mysql:/var/lib/mysql
+    networks:
+      - laravel
+
+networks:
+  laravel:
