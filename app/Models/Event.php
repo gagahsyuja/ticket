@@ -47,7 +47,7 @@ class Event extends Model
         return $this->hasMany(Order::class);
     }
 
-    protected function getStatusAttribute(): Attribute
+    protected function status(): Attribute
     {
         return Attribute::make(
             get: function () {
@@ -66,7 +66,7 @@ class Event extends Model
         );
     }
 
-    public function hasSales(): Bool
+    public function hasSales(): bool
     {
         return $this->orders()->exists();
     }
@@ -89,7 +89,7 @@ class Event extends Model
         return $query->where('tanggal_waktu', '>', now());
     }
 
-    protected function getImageUrlAttribute(): Attribute
+    protected function imageUrl(): Attribute
     {
         return Attribute::make(
             get: function () {
