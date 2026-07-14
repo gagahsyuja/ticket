@@ -14,11 +14,11 @@ class EventController extends Controller
     {
         $query = Event::with(['kategori', 'tikets']);
 
-        if ($request->has('kategori_id')) {
+        if ($request->filled('kategori_id')) {
             $query->where('kategori_id', $request->kategori_id);
         }
 
-        if ($request->has('search')) {
+        if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function($q) use ($search) {
                 $q->where('judul', 'like', "%{$search}%")
