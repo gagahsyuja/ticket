@@ -135,7 +135,7 @@
     </div>
 
     <script>
-        let ticketCount = {{ $tikets->count() }};
+        let ticketCount = 0;
         const existingTickets = @json($tikets);
         const hasSales = {{ $hasSales ? 'true' : 'false' }};
 
@@ -151,12 +151,30 @@
             }
         }
 
+        function getNextTicketNumber() {
+            const container = document.getElementById('ticketsContainer');
+            const tickets = container.querySelectorAll('.card');
+            return tickets.length + 1;
+        }
+
+        function updateTicketNumbers() {
+            const container = document.getElementById('ticketsContainer');
+            const tickets = container.querySelectorAll('.card');
+            tickets.forEach((ticket, index) => {
+                const header = ticket.querySelector('.ticket-header-title');
+                if (header) {
+                    const badgeHTML = ticket.querySelector('.badge') ? ticket.querySelector('.badge').outerHTML : '';
+                    header.innerHTML = `<h4 class="font-semibold">Tiket #${index + 1}</h4>${badgeHTML}`;
+                }
+            });
+        }
+
         function addTicket(existingData = null) {
             ticketCount++;
             const container = document.getElementById('ticketsContainer');
             const isExisting = existingData !== null;
             const ticketId = isExisting ? existingData.id : null;
-            const displayCount = isExisting ? existingData.display_count : ticketCount;
+            const displayCount = getNextTicketNumber();
             
             const hasSalesBadge = hasSales && isExisting ? '<span class="badge badge-success badge-sm">Sudah Terjual</span>' : '';
             const deleteButton = hasSales && isExisting 
@@ -164,10 +182,10 @@
                 : `<button type="button" onclick="removeTicket(${ticketCount})" class="btn btn-sm btn-error">Hapus</button>`;
 
             const ticketHTML = `
-                <div class="card bg-base-200 mb-4" id="ticket-${ticketCount}">
+                <div class="card bg-base-200 mb-4" id="ticket-${ticketCount}" data-ticket-id="${ticketCount}">
                     <div class="card-body">
                         <div class="flex justify-between items-center mb-4">
-                            <div class="flex items-center gap-2">
+                            <div class="flex items-center gap-2 ticket-header-title">
                                 <h4 class="font-semibold">Tiket #${displayCount}</h4>
                                 ${hasSalesBadge}
                             </div>
@@ -211,12 +229,13 @@
             const ticket = document.getElementById('ticket-' + id);
             if (ticket) {
                 ticket.remove();
+                updateTicketNumbers();
             }
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            existingTickets.forEach((ticket, index) => {
-                addTicket({...ticket, display_count: index + 1});
+            existingTickets.forEach((ticket) => {
+                addTicket(ticket);
             });
         });
     </script>

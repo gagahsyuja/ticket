@@ -30,7 +30,7 @@
 
         <div class="card bg-base-100 shadow-xl mb-6">
             <div class="card-body">
-                <form method="GET" action="{{ route('events.index') }}" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <form method="GET" action="{{ route('events.index') }}" class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
                     <div class="space-y-2">
                         <label class="block text-sm font-medium">Search</label>
                         <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari judul atau lokasi..." class="input input-bordered w-full">
@@ -56,9 +56,9 @@
                         </select>
                     </div>
 
-                    <div class="space-y-2 flex items-end gap-2">
-                        <button type="submit" class="btn btn-primary flex-1">Filter</button>
-                        <a href="{{ route('events.index') }}" class="btn btn-outline flex-1">Reset</a>
+                    <div class="flex gap-2">
+                        <button type="submit" class="btn btn-primary">Filter</button>
+                        <a href="{{ route('events.index') }}" class="btn btn-outline">Reset</a>
                     </div>
                 </form>
             </div>
@@ -81,7 +81,7 @@
                         </thead>
                         <tbody>
                             @forelse ($events as $event)
-                                <tr>
+                                <tr class="hover:bg-base-200 cursor-pointer transition-colors" onclick="window.location='{{ route('events.show', $event) }}'">
                                     <td>
                                         <div class="avatar">
                                             <div class="w-16 h-16 rounded">
@@ -104,14 +104,17 @@
                                         @endphp
                                         <span class="badge {{ $statusClass }}">{{ $event->status }}</span>
                                     </td>
-                                    <td>
+                                    <td onclick="event.stopPropagation()">
                                         <div class="flex gap-2">
-                                            <a href="{{ route('events.show', $event) }}" class="btn btn-sm btn-info">View</a>
-                                            <a href="{{ route('events.edit', $event) }}" class="btn btn-sm btn-warning">Edit</a>
+                                            <a href="{{ route('events.edit', $event) }}" class="btn btn-sm btn-ghost btn-square" title="Edit">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                                                </svg>
+                                            </a>
                                             <form action="{{ route('events.destroy', $event) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus event ini?')">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-error">Delete</button>
+                                                <button type="submit" class="btn btn-sm btn-error" title="Delete">Delete</button>
                                             </form>
                                         </div>
                                     </td>
