@@ -14,17 +14,17 @@ class Event extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nama',
+        'judul',
         'user_id',
         'kategori_id',
         'deskripsi',
-        'tanggal',
+        'tanggal_waktu',
         'lokasi',
         'gambar'
     ];
 
     protected $casts = [
-        'tanggal' => 'datetime'
+        'tanggal_waktu' => 'datetime'
     ];
 
     public function tikets()
@@ -53,10 +53,10 @@ class Event extends Model
             get: function () {
                 switch (true)
                 {
-                    case $this->tanggal->isBetween(now()->subHours(3), now()):
+                    case $this->tanggal_waktu->isBetween(now()->subHours(3), now()):
                         return 'Ongoing';
 
-                    case $this->tanggal->isPast():
+                    case $this->tanggal_waktu->isPast():
                         return 'Completed';
 
                     default:
@@ -73,12 +73,12 @@ class Event extends Model
 
     public function scopeCompleted(Builder $query): Builder
     {
-        return $query->where('tanggal', '<', now()->subHours(3));
+        return $query->where('tanggal_waktu', '<', now()->subHours(3));
     }
 
     public function scopeOngoing(Builder $query): Builder
     {
-        return $query->whereBetween('tanggal', [
+        return $query->whereBetween('tanggal_waktu', [
             now()->subHours(3),
             now()
         ]);
@@ -86,7 +86,7 @@ class Event extends Model
 
     public function scopeUpcoming(Builder $query): Builder
     {
-        return $query->where('tanggal', '>', now());
+        return $query->where('tanggal_waktu', '>', now());
     }
 
     protected function getImageUrlAttribute(): Attribute

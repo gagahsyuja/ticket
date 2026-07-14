@@ -15,11 +15,11 @@ class EventFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nama' => 'required|string|max:255',
+            'judul' => 'required|string|max:255',
             'deskripsi' => 'required|string',
             'lokasi' => 'required|string|max:255',
             'kategori_id' => 'required|exists:kategoris,id',
-            'tanggal' => 'required|date|after:now',
+            'tanggal_waktu' => 'required|date|after:now',
             'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'tikets' => 'required|array|min:1',
             'tikets.*.tipe' => 'required|in:reguler,premium',
@@ -32,9 +32,9 @@ class EventFormRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'nama.required' => 'Judul event wajib diisi.',
-            'nama.string' => 'Judul event harus berupa teks.',
-            'nama.max' => 'Judul event maksimal 255 karakter.',
+            'judul.required' => 'Judul event wajib diisi.',
+            'judul.string' => 'Judul event harus berupa teks.',
+            'judul.max' => 'Judul event maksimal 255 karakter.',
             'deskripsi.required' => 'Deskripsi event wajib diisi.',
             'deskripsi.string' => 'Deskripsi event harus berupa teks.',
             'lokasi.required' => 'Lokasi event wajib diisi.',
@@ -42,9 +42,9 @@ class EventFormRequest extends FormRequest
             'lokasi.max' => 'Lokasi event maksimal 255 karakter.',
             'kategori_id.required' => 'Kategori event wajib dipilih.',
             'kategori_id.exists' => 'Kategori yang dipilih tidak valid.',
-            'tanggal.required' => 'Tanggal dan waktu event wajib diisi.',
-            'tanggal.date' => 'Tanggal dan waktu event harus berupa tanggal yang valid.',
-            'tanggal.after' => 'Tanggal dan waktu event harus setelah waktu sekarang.',
+            'tanggal_waktu.required' => 'Tanggal dan waktu event wajib diisi.',
+            'tanggal_waktu.date' => 'Tanggal dan waktu event harus berupa tanggal yang valid.',
+            'tanggal_waktu.after' => 'Tanggal dan waktu event harus setelah waktu sekarang.',
             'gambar.image' => 'Gambar harus berupa file gambar.',
             'gambar.mimes' => 'Gambar harus berformat jpg, jpeg, atau png.',
             'gambar.max' => 'Ukuran gambar maksimal 2MB.',
