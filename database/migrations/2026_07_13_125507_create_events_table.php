@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('kategori_id')->constrained()->onDelete('cascade');
-            $table->string('judul');
+            $table->string('nama');
             $table->text('deskripsi');
             $table->string('lokasi');
             $table->string('gambar');
-            $table->dateTime('tanggal_waktu');
+            $table->dateTime('tanggal');
             $table->timestamps();
         });
     }
