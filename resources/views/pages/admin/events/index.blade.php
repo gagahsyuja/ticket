@@ -134,4 +134,26 @@
             </div>
         </div>
     </div>
+
+    <style>
+        nav[role="navigation"] a,
+        nav[role="navigation"] span {
+            background-color: #ffffff !important;
+            border-color: #d1d1d1 !important;
+            color: #000000 !important;
+        }
+
+        nav[role="navigation"] span[aria-current="page"] > span,
+        nav[role="navigation"] span[aria-current="page"] > button {
+            background-color: #422ad5 !important;
+            border-color: #d1d1d1 !important;
+            color: #ffffff !important;
+        }
+
+        nav[role="navigation"] a:hover:not([aria-disabled="true"]) {
+            background-color: #422ad5 !important;
+            border-color: #d1d1d1 !important;
+            color: #ffffff !important;
+        }
+    </style>
 </x-app-layout>
