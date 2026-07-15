@@ -20,9 +20,9 @@ class EventController extends Controller
 
         if ($request->filled('search')) {
             $search = $request->search;
-            $query->where(function($q) use ($search) {
+            $query->where(function ($q) use ($search) {
                 $q->where('judul', 'like', "%{$search}%")
-                  ->orWhere('lokasi', 'like', "%{$search}%");
+                    ->orWhere('lokasi', 'like', "%{$search}%");
             });
         }
 
@@ -135,7 +135,8 @@ class EventController extends Controller
     {
         $event->load(['kategori', 'tikets']);
 
-        $relatedEvents = Event::where('kategori_id', $event->kategori_id)
+        $relatedEvents = Event::with('tikets')
+            ->where('kategori_id', $event->kategori_id)
             ->where('id', '!=', $event->id)
             ->where('tanggal_waktu', '>', now())
             ->take(4)
