@@ -1,5 +1,15 @@
 <x-app-layout>
     <div class="max-w-7xl mx-auto py-8 px-6">
+        <!-- Back Button -->
+        <div class="mb-6">
+            <a href="{{ route('home') }}" class="btn btn-outline btn-wide">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Kembali ke Beranda
+            </a>
+        </div>
+
         <!-- Event Header -->
         <div class="card bg-base-100 shadow-xl mb-8">
             <div class="card-body">
@@ -152,15 +162,5 @@
                 </div>
             </div>
         @endif
-
-        <!-- Back Button -->
-        <div class="mt-8">
-            <a href="{{ route('home') }}" class="btn btn-outline btn-wide">
-                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-                </svg>
-                Kembali ke Beranda
-            </a>
-        </div>
     </div>
 </x-app-layout>
