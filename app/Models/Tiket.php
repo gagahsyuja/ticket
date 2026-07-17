@@ -20,7 +20,7 @@ class Tiket extends Model
 
     public function detailOrders()
     {
-        return $this->hasMany(DetailOrder);
+        return $this->hasMany(DetailOrder::class);
     }
 
     public function orders()

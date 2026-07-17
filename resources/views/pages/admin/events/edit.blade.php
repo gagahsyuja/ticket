@@ -10,12 +10,12 @@
         </div>
 
         @if ($hasSales)
-            <div class="alert alert-warning mb-6">
-                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                </svg>
-                <span>Event ini sudah memiliki penjualan tiket. Beberapa field mungkin tidak dapat diubah.</span>
-            </div>
+        <div class="alert alert-warning mb-6">
+            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+            <span>Event ini sudah memiliki penjualan tiket. Beberapa field mungkin tidak dapat diubah.</span>
+        </div>
         @endif
 
         <div class="card bg-base-100 shadow-xl">
@@ -34,7 +34,7 @@
                             </label>
                             <input type="text" name="judul" value="{{ old('judul', $event->judul) }}" class="input input-bordered w-full @error('judul') input-error @enderror" required>
                             @error('judul')
-                                <span class="text-error text-sm">{{ $message }}</span>
+                            <span class="text-error text-sm">{{ $message }}</span>
                             @enderror
                         </div>
 
@@ -46,13 +46,13 @@
                             <select name="kategori_id" class="select select-bordered w-full @error('kategori_id') select-error @enderror" required>
                                 <option value="">Pilih Kategori</option>
                                 @foreach ($kategoris as $kategori)
-                                    <option value="{{ $kategori->id }}" {{ old('kategori_id', $event->kategori_id) == $kategori->id ? 'selected' : '' }}>
-                                        {{ $kategori->nama }}
-                                    </option>
+                                <option value="{{ $kategori->id }}" {{ old('kategori_id', $event->kategori_id) == $kategori->id ? 'selected' : '' }}>
+                                    {{ $kategori->nama }}
+                                </option>
                                 @endforeach
                             </select>
                             @error('kategori_id')
-                                <span class="text-error text-sm">{{ $message }}</span>
+                            <span class="text-error text-sm">{{ $message }}</span>
                             @enderror
                         </div>
 
@@ -61,9 +61,16 @@
                                 <span class="text-sm font-medium">Lokasi</span>
                                 <span class="text-error">*</span>
                             </label>
-                            <input type="text" name="lokasi" value="{{ old('lokasi', $event->lokasi) }}" class="input input-bordered w-full @error('lokasi') input-error @enderror" required>
+                            <select name="lokasi_id" class="select select-bordered w-full @error('lokasi_id') select-error @enderror" required>
+                                <option value="">Pilih Lokasi</option>
+                                @foreach ($lokasis as $lokasi)
+                                <option value="{{ $lokasi->id }}" {{ old('lokasi_id', $event->lokasi_id) == $lokasi->id ? 'selected' : '' }}>
+                                    {{ $lokasi->nama_lokasi }}
+                                </option>
+                                @endforeach
+                            </select>
                             @error('lokasi')
-                                <span class="text-error text-sm">{{ $message }}</span>
+                            <span class="text-error text-sm">{{ $message }}</span>
                             @enderror
                         </div>
 
@@ -72,12 +79,12 @@
                                 <span class="text-sm font-medium">Tanggal & Waktu</span>
                                 <span class="text-error">*</span>
                                 @if ($hasSales)
-                                    <span class="badge badge-warning badge-sm ml-2">Tidak dapat diubah</span>
+                                <span class="badge badge-warning badge-sm ml-2">Tidak dapat diubah</span>
                                 @endif
                             </label>
                             <input type="datetime-local" name="tanggal_waktu" value="{{ old('tanggal_waktu', \Carbon\Carbon::parse($event->tanggal_waktu)->format('Y-m-d\TH:i')) }}" class="input input-bordered w-full @error('tanggal_waktu') input-error @enderror" {{ $hasSales ? 'readonly' : '' }} required>
                             @error('tanggal_waktu')
-                                <span class="text-error text-sm">{{ $message }}</span>
+                            <span class="text-error text-sm">{{ $message }}</span>
                             @enderror
                         </div>
 
@@ -95,7 +102,7 @@
                             <input type="file" name="gambar" accept="image/jpeg,image/png,image/jpg" class="file-input file-input-bordered w-full @error('gambar') file-input-error @enderror" onchange="previewImage(event)">
                             <span class="text-sm text-gray-500">Kosongkan jika tidak ingin mengubah gambar</span>
                             @error('gambar')
-                                <span class="text-error text-sm">{{ $message }}</span>
+                            <span class="text-error text-sm">{{ $message }}</span>
                             @enderror
                             <div id="imagePreviewContainer" style="display: none;" class="mt-2">
                                 <img id="imagePreview" src="" alt="Preview" class="w-full h-48 object-cover rounded-lg">
@@ -109,7 +116,7 @@
                             </label>
                             <textarea name="deskripsi" rows="4" class="textarea textarea-bordered w-full @error('deskripsi') textarea-error @enderror" required>{{ old('deskripsi', $event->deskripsi) }}</textarea>
                             @error('deskripsi')
-                                <span class="text-error text-sm">{{ $message }}</span>
+                            <span class="text-error text-sm">{{ $message }}</span>
                             @enderror
                         </div>
                     </div>
@@ -137,7 +144,10 @@
     <script>
         let ticketCount = 0;
         const existingTickets = @json($tikets);
+       
         const hasSales = {{ $hasSales ? 'true' : 'false' }};
+
+
 
         function previewImage(event) {
             const file = event.target.files[0];
@@ -175,11 +185,11 @@
             const isExisting = existingData !== null;
             const ticketId = isExisting ? existingData.id : null;
             const displayCount = getNextTicketNumber();
-            
+
             const hasSalesBadge = hasSales && isExisting ? '<span class="badge badge-success badge-sm">Sudah Terjual</span>' : '';
-            const deleteButton = hasSales && isExisting 
-                ? `<span class="text-sm text-gray-500">Tidak dapat dihapus</span>`
-                : `<button type="button" onclick="removeTicket(${ticketCount})" class="btn btn-sm btn-error">Hapus</button>`;
+            const deleteButton = hasSales && isExisting ?
+                `<span class="text-sm text-gray-500">Tidak dapat dihapus</span>` :
+                `<button type="button" onclick="removeTicket(${ticketCount})" class="btn btn-sm btn-error">Hapus</button>`;
 
             const ticketHTML = `
                 <div class="card bg-base-200 mb-4" id="ticket-${ticketCount}" data-ticket-id="${ticketCount}">

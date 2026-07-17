@@ -51,7 +51,14 @@
                                 <span class="text-sm font-medium">Lokasi</span>
                                 <span class="text-error">*</span>
                             </label>
-                            <input type="text" name="lokasi" value="{{ old('lokasi') }}" class="input input-bordered w-full @error('lokasi') input-error @enderror" required>
+                            <select name="lokasi_id" class="select select-bordered w-full @error('lokasi_id') select-error @enderror" required>
+                                <option value="">Pilih Lokasi</option>
+                                @foreach ($lokasis as $lokasi)
+                                    <option value="{{ $lokasi->id }}" {{ old('lokasi_id') == $lokasi->id ? 'selected' : '' }}>
+                                        {{ $lokasi->nama_lokasi }}
+                                    </option>
+                                @endforeach
+                            </select>
                             @error('lokasi')
                                 <span class="text-error text-sm">{{ $message }}</span>
                             @enderror

@@ -17,9 +17,9 @@ class Event extends Model
         'judul',
         'user_id',
         'kategori_id',
+        'lokasi_id',
         'deskripsi',
         'tanggal_waktu',
-        'lokasi',
         'gambar'
     ];
 
@@ -47,12 +47,16 @@ class Event extends Model
         return $this->hasMany(Order::class);
     }
 
+    public function lokasi()
+    {
+        return $this->belongsTo(Lokasi::class);
+    }
+
     protected function status(): Attribute
     {
         return Attribute::make(
             get: function () {
-                switch (true)
-                {
+                switch (true) {
                     case $this->tanggal_waktu->isBetween(now()->subHours(3), now()):
                         return 'Ongoing';
 
@@ -96,13 +100,11 @@ class Event extends Model
 
                 $url = $this->gambar;
 
-                if (filter_var($url, FILTER_VALIDATE_URL))
-                {
+                if (filter_var($url, FILTER_VALIDATE_URL)) {
                     return $url;
                 }
 
-                if ($url && Storage::disk('public')->exists($url))
-                {
+                if ($url && Storage::disk('public')->exists($url)) {
                     return Storage::disk('public')->url($url);
                 }
 

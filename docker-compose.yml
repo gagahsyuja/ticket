@@ -11,7 +11,8 @@ services:
       - laravel
     ports:
       - 8000:8000
-    command: ["php", "artisan", "serve", "--host", "0.0.0.0"]
+    # command: ["php", "artisan", "serve", "--host", "0.0.0.0"]
+    # command: ["sh", "-c", "'sleep infinity'"]
 
   database:
     container_name: mariadb

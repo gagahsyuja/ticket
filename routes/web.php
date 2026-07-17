@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\LokasiController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])
@@ -31,6 +32,15 @@ Route::prefix('admin')->name('events.')->middleware(['auth', 'verified'])->group
     Route::delete('/events/{event}', [EventController::class, 'destroy'])->name('destroy');
 });
 
+Route::prefix('admin')->name('lokasi.')->middleware(['auth', 'verified'])->group(function () {
+    Route::get('/lokasi', [LokasiController::class, 'index'])->name('index');
+    Route::get('/lokasi/create', [LokasiController::class, 'create'])->name('create');
+    Route::post('/lokasi', [LokasiController::class, 'store'])->name('store');
+    Route::get('/lokasi/{lokasi}/edit', [LokasiController::class, 'edit'])->name('edit');
+    Route::put('/lokasi/{lokasi}', [LokasiController::class, 'update'])->name('update');
+    Route::delete('/lokasi/{lokasi}', [LokasiController::class, 'destroy'])->name('destroy');
+});
+
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
@@ -41,4 +51,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

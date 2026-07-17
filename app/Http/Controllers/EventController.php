@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\Kategori;
 use App\Http\Requests\EventFormRequest;
+use App\Models\Lokasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -12,7 +13,7 @@ class EventController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Event::with(['kategori', 'tikets']);
+        $query = Event::with(['kategori', 'tikets', 'lokasi']);
 
         if ($request->filled('kategori_id')) {
             $query->where('kategori_id', $request->kategori_id);
@@ -22,7 +23,7 @@ class EventController extends Controller
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('judul', 'like', "%{$search}%")
-                    ->orWhere('lokasi', 'like', "%{$search}%");
+                    ->orWhere('nama_lokasi', 'like', "%{$search}%");
             });
         }
 
@@ -37,8 +38,9 @@ class EventController extends Controller
     public function create()
     {
         $kategoris = Kategori::all();
+        $lokasis = Lokasi::all();
 
-        return view('pages.admin.events.create', compact('kategoris'));
+        return view('pages.admin.events.create', compact('kategoris', 'lokasis'));
     }
 
     public function store(EventFormRequest $request)
@@ -70,8 +72,9 @@ class EventController extends Controller
         $kategoris = Kategori::all();
         $tikets = $event->tikets;
         $hasSales = $event->hasSales();
+        $lokasis = Lokasi::all();
 
-        return view('pages.admin.events.edit', compact('event', 'kategoris', 'tikets', 'hasSales'));
+        return view('pages.admin.events.edit', compact('event', 'kategoris', 'tikets', 'hasSales', 'lokasis'));
     }
 
     public function update(EventFormRequest $request, Event $event)
